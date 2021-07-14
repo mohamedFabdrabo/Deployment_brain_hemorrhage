@@ -50,9 +50,9 @@ async def upload(request):
     return model_predict(IMG_FILE_SRC, model)
 
 def model_predict(img_path, model):
-    result = []; img = image.load_img(img_path, target_size=(224, 224))
-    x = preprocess_input(np.expand_dims(image.img_to_array(img), axis=0))
-    predictions = decode_predictions(model.predict(x), top=3)[0] # Get Top-3 Accuracy
+    result = []; img = cv2.resize(cv2.imread(img_path,0),(64,64))#image.load_img(img_path, target_size=(224, 224))
+    x = (np.array(test)).reshape(1,64,64,1)#x = preprocess_input(np.expand_dims(image.img_to_array(img), axis=0))
+    predictions = model.predict(x)#decode_predictions(model.predict(x), top=3)[0] # Get Top-3 Accuracy
     for p in predictions: _,label,accuracy = p; result.append((label,accuracy))
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
